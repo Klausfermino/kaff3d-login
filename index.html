@@ -1,0 +1,33 @@
+<!doctype html>
+<html lang="pt-BR">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<meta name="referrer" content="no-referrer">
+<meta name="robots" content="noindex">
+<meta http-equiv="Content-Security-Policy" content="default-src 'none'; script-src 'unsafe-inline'; style-src 'unsafe-inline'">
+<title>Kaff 3D - Login</title>
+<style>body{font-family:sans-serif;max-width:560px;margin:80px auto;padding:0 16px}</style>
+</head>
+<body>
+<h2>Kaff 3D</h2>
+<p id="mensagem">Esta página só repassa o retorno do login do TikTok para o agente neste computador.</p>
+<noscript><p>Ative o JavaScript para concluir o login.</p></noscript>
+<script>
+(function () {
+  var recebidos = new URLSearchParams(window.location.search);
+  if (!recebidos.has("code") && !recebidos.has("error")) {
+    return;
+  }
+  var repassar = new URLSearchParams();
+  ["code", "state", "error"].forEach(function (nome) {
+    if (recebidos.has(nome)) {
+      repassar.set(nome, recebidos.get(nome));
+    }
+  });
+  document.getElementById("mensagem").textContent = "Voltando para o agente Kaff 3D...";
+  window.location.replace("http://localhost:8080/?" + repassar.toString());
+})();
+</script>
+</body>
+</html>
